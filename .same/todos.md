@@ -2,23 +2,23 @@
 
 ## Phase 1: Project Setup & Database
 - [x] Create Next.js 14 project with App Router
-- [ ] Install and configure required dependencies
-- [ ] Set up Prisma ORM with PostgreSQL
-- [ ] Create database schema for users, cars, centers, bookings, payments
-- [ ] Set up environment variables configuration
+- [x] Install and configure required dependencies
+- [x] Set up Prisma ORM with PostgreSQL
+- [x] Create database schema for users, cars, centers, bookings, payments
+- [x] Set up environment variables configuration
 
 ## Phase 2: Authentication System
 - [x] Install and configure NextAuth.js
 - [x] Set up email/password authentication
 - [x] Add Google OAuth provider
 - [x] Add Facebook OAuth provider
-- [ ] Implement password reset functionality
+- [x] Implement password reset functionality
 - [x] Create login/register pages
 
 ## Phase 3: Core Application Structure
-- [ ] Create responsive layout with navigation
-- [ ] Set up internationalization (Arabic, French, English)
-- [ ] Create user dashboard structure
+- [x] Create responsive layout with navigation
+- [x] Set up internationalization (Arabic, French, English)
+- [x] Create user dashboard structure
 - [ ] Create admin dashboard structure
 - [ ] Implement role-based access control
 
