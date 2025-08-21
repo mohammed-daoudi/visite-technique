@@ -75,7 +75,7 @@ class EmailService {
     this.fromEmail = process.env.SMTP_FROM || 'noreply@visite-sri3a.ma'
     this.fromName = process.env.SMTP_FROM_NAME || 'Visite Sri3a'
 
-    this.transporter = nodemailer.createTransporter(config)
+    this.transporter = nodemailer.createTransport(config)
   }
 
   // Test email configuration

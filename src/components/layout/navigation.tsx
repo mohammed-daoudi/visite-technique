@@ -292,7 +292,6 @@ export function Navigation() {
                     )}
                   </div>
                 </div>
-                </div>
               </SheetContent>
             </Sheet>
           </div>

@@ -6,6 +6,7 @@
     "dev": "next dev -H 0.0.0.0 --turbopack",
     "build": "next build",
     "start": "next start",
+    "postinstall": "prisma generate",
     "lint": "bunx tsc --noEmit && next lint",
     "format": "bunx biome format --write"
   },
@@ -24,6 +25,7 @@
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-switch": "^1.2.6",
+    "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-toast": "^1.2.14",
     "@types/bcryptjs": "^3.0.0",
     "@types/nodemailer": "^7.0.1",
