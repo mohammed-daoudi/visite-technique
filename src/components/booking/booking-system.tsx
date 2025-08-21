@@ -163,21 +163,21 @@ export function BookingSystem({ userId, preselectedCenterId, preselectedCarId }:
   const today = startOfDay(new Date())
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Step 1: Select Car */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <Card className="mobile-card">
+        <CardHeader className="pb-3 sm:pb-6">
+          <CardTitle className="mobile-subheading flex items-center gap-2">
             <Car className="h-5 w-5" />
             1. Choisir un véhicule
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="mobile-body-text">
             Sélectionnez le véhicule à inspecter
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           <Select value={selectedCar} onValueChange={setSelectedCar}>
-            <SelectTrigger>
+            <SelectTrigger className="mobile-form-select">
               <SelectValue placeholder="Sélectionnez un véhicule" />
             </SelectTrigger>
             <SelectContent>
@@ -207,19 +207,19 @@ export function BookingSystem({ userId, preselectedCenterId, preselectedCarId }:
       </Card>
 
       {/* Step 2: Select Center */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+      <Card className="mobile-card">
+        <CardHeader className="pb-3 sm:pb-6">
+          <CardTitle className="mobile-subheading flex items-center gap-2">
             <MapPin className="h-5 w-5" />
             2. Choisir un centre d'inspection
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="mobile-body-text">
             Sélectionnez le centre où effectuer l'inspection
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-0">
           <Select value={selectedCenter} onValueChange={setSelectedCenter}>
-            <SelectTrigger>
+            <SelectTrigger className="mobile-form-select">
               <SelectValue placeholder="Sélectionnez un centre" />
             </SelectTrigger>
             <SelectContent>
@@ -240,17 +240,17 @@ export function BookingSystem({ userId, preselectedCenterId, preselectedCarId }:
 
       {/* Step 3: Select Date */}
       {selectedCenter && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+        <Card className="mobile-card">
+          <CardHeader className="pb-3 sm:pb-6">
+            <CardTitle className="mobile-subheading flex items-center gap-2">
               <CalendarDays className="h-5 w-5" />
               3. Choisir une date
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="mobile-body-text">
               Sélectionnez la date de votre inspection
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="pt-0">
             <div className="flex items-center justify-between mb-4">
               <Button
                 variant="outline"
@@ -271,7 +271,7 @@ export function BookingSystem({ userId, preselectedCenterId, preselectedCarId }:
               </Button>
             </div>
 
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-7 gap-1 sm:gap-2">
               {weekDays.map((day) => {
                 const isToday = isSameDay(day, new Date())
                 const isSelected = isSameDay(day, selectedDate)
@@ -284,7 +284,7 @@ export function BookingSystem({ userId, preselectedCenterId, preselectedCarId }:
                     size="sm"
                     disabled={isPast}
                     onClick={() => setSelectedDate(day)}
-                    className="flex flex-col p-2 h-auto"
+                    className="flex flex-col p-1 sm:p-2 h-auto min-h-[44px] text-xs sm:text-sm"
                   >
                     <span className="text-xs font-normal">
                       {format(day, 'EEE', { locale: fr })}

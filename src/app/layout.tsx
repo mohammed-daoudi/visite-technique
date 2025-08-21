@@ -15,8 +15,65 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Visite Sri3a - Réservation de visite technique au Maroc",
-  description: "Réservez votre visite technique automobile en ligne. Évitez les files d'attente et payez à l'avance.",
+  title: "Visite Sri3a - Réservation de Visite Technique Automobile au Maroc",
+  description: "Plateforme officielle pour réserver votre visite technique automobile au Maroc. Service rapide, paiement sécurisé CMI, centres agréés partout au royaume. Évitez les files d'attente !",
+  keywords: "visite technique, automobile, Maroc, réservation, contrôle technique, voiture, CMI, paiement, centres agréés, Sri3a",
+  authors: [{ name: "Visite Sri3a" }],
+  creator: "Visite Sri3a",
+  publisher: "Visite Sri3a",
+  applicationName: "Visite Sri3a",
+  generator: "Next.js",
+  referrer: "origin-when-cross-origin",
+  category: "Automotive Services",
+  classification: "Business",
+  openGraph: {
+    type: "website",
+    locale: "fr_MA",
+    alternateLocale: ["ar_MA", "en_US"],
+    url: "https://visite-sri3a.ma",
+    siteName: "Visite Sri3a",
+    title: "Visite Sri3a - Réservation de Visite Technique Automobile au Maroc",
+    description: "Réservez votre visite technique automobile en ligne au Maroc. Service officiel, rapide et sécurisé.",
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Visite Sri3a - Service de visite technique automobile au Maroc",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@VisiteSri3a",
+    creator: "@VisiteSri3a",
+    title: "Visite Sri3a - Réservation Visite Technique Auto Maroc",
+    description: "Réservez votre visite technique automobile en ligne. Service rapide et sécurisé au Maroc.",
+    images: ["/twitter-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
+  },
+  verification: {
+    google: "your-google-verification-code",
+    other: {
+      "msvalidate.01": "your-bing-verification-code",
+    },
+  },
 };
 
 export default function RootLayout({

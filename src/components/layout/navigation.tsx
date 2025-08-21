@@ -55,12 +55,13 @@ export function Navigation() {
   }
 
   return (
-    <nav className="bg-white shadow-sm border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+    <nav className="bg-white shadow-sm border-b sticky top-0 z-50">
+      <div className="mobile-container">
+        <div className="flex justify-between h-14 sm:h-16">
           <div className="flex items-center">
-            <Link href={`/${locale}`} className="flex-shrink-0">
-              <Logo size="md" />
+            <Link href={`/${locale}`} className="flex-shrink-0 touch-target">
+              <Logo size="sm" className="sm:hidden" />
+              <Logo size="md" className="hidden sm:block" />
             </Link>
 
             {/* Desktop Navigation */}
@@ -167,64 +168,130 @@ export function Navigation() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center space-x-2">
+            {/* Language Selector Mobile */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="touch-target">
+                  <Globe className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {languages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className={locale === lang.code ? 'bg-gray-100' : ''}
+                  >
+                    {lang.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="touch-target">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-80">
-                <div className="flex flex-col space-y-4 mt-4">
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className="text-gray-600 hover:text-gray-900 block px-3 py-2 text-base font-medium"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-
-                  {session ? (
-                    <>
-                      <div className="border-t pt-4">
-                        {userNavigation.map((item) => (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            className="flex items-center text-gray-600 hover:text-gray-900 px-3 py-2 text-base font-medium"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            <item.icon className="mr-3 h-5 w-5" />
-                            {item.name}
-                          </Link>
-                        ))}
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start px-3"
-                          onClick={handleSignOut}
+              <SheetContent side="right" className="w-full sm:w-80 p-0">
+                <div className="flex flex-col h-full">
+                  <div className="p-6 border-b">
+                    <Logo size="md" />
+                  </div>
+                  <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                    <div className="space-y-1">
+                      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                        Navigation
+                      </h3>
+                      {navigation.map((item) => (
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          className="mobile-nav-item text-gray-600 hover:text-gray-900 hover:bg-gray-50 block w-full text-left"
+                          onClick={() => setIsOpen(false)}
                         >
-                          <LogOut className="mr-3 h-5 w-5" />
-                          {t('logout')}
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+
+                    {session ? (
+                      <div className="space-y-4">
+                        <div className="bg-gray-50 rounded-lg p-4">
+                          <div className="flex items-center space-x-3">
+                            <Avatar className="h-10 w-10">
+                              <AvatarImage src={session.user.image || ''} alt={session.user.name || ''} />
+                              <AvatarFallback>
+                                {session.user.name?.charAt(0).toUpperCase() || 'U'}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-900 truncate">
+                                {session.user.name}
+                              </p>
+                              <p className="text-xs text-gray-500 truncate">
+                                {session.user.email}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-1">
+                          <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                            Mon Compte
+                          </h3>
+                          {userNavigation.map((item) => (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              className="mobile-nav-item text-gray-600 hover:text-gray-900 hover:bg-gray-50 flex items-center w-full"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              <item.icon className="mr-3 h-5 w-5" />
+                              {item.name}
+                            </Link>
+                          ))}
+                          {(session.user.role === 'ADMIN' || session.user.role === 'SUPER_ADMIN') && (
+                            <Link
+                              href={`/${locale}/admin`}
+                              className="mobile-nav-item text-gray-600 hover:text-gray-900 hover:bg-gray-50 flex items-center w-full"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              <Settings className="mr-3 h-5 w-5" />
+                              {t('admin')}
+                            </Link>
+                          )}
+                          <Button
+                            variant="ghost"
+                            className="mobile-nav-item text-gray-600 hover:text-gray-900 hover:bg-gray-50 w-full justify-start"
+                            onClick={handleSignOut}
+                          >
+                            <LogOut className="mr-3 h-5 w-5" />
+                            {t('logout')}
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                          Connexion
+                        </h3>
+                        <Button variant="outline" asChild className="mobile-button">
+                          <Link href={`/${locale}/auth/signin`} onClick={() => setIsOpen(false)}>
+                            {t('login')}
+                          </Link>
+                        </Button>
+                        <Button asChild className="mobile-button">
+                          <Link href={`/${locale}/auth/signup`} onClick={() => setIsOpen(false)}>
+                            {t('register')}
+                          </Link>
                         </Button>
                       </div>
-                    </>
-                  ) : (
-                    <div className="border-t pt-4 space-y-2">
-                      <Button variant="ghost" asChild className="w-full">
-                        <Link href={`/${locale}/auth/signin`} onClick={() => setIsOpen(false)}>
-                          {t('login')}
-                        </Link>
-                      </Button>
-                      <Button asChild className="w-full">
-                        <Link href={`/${locale}/auth/signup`} onClick={() => setIsOpen(false)}>
-                          {t('register')}
-                        </Link>
-                      </Button>
-                    </div>
-                  )}
+                    )}
+                  </div>
+                </div>
                 </div>
               </SheetContent>
             </Sheet>

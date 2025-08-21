@@ -29,8 +29,12 @@ export function Logo({ className, size = 'md', variant = 'full' }: LogoProps) {
     >
       <defs>
         <linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#3B82F6" />
-          <stop offset="100%" stopColor="#1E40AF" />
+          <stop offset="0%" stopColor="hsl(215, 84%, 55%)" />
+          <stop offset="100%" stopColor="hsl(355, 75%, 42%)" />
+        </linearGradient>
+        <linearGradient id="checkGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="hsl(142, 76%, 45%)" />
+          <stop offset="100%" stopColor="hsl(142, 76%, 55%)" />
         </linearGradient>
       </defs>
 
@@ -53,7 +57,7 @@ export function Logo({ className, size = 'md', variant = 'full' }: LogoProps) {
       <circle cx="26" cy="27" r="1.5" fill="#9CA3AF" />
 
       {/* Checkmark overlay */}
-      <circle cx="32" cy="8" r="6" fill="#10B981" />
+      <circle cx="32" cy="8" r="6" fill="url(#checkGradient)" />
       <path
         d="M29 8l2 2 4-4"
         stroke="white"
@@ -76,7 +80,7 @@ export function Logo({ className, size = 'md', variant = 'full' }: LogoProps) {
   if (variant === 'text') {
     return (
       <span className={cn(
-        'font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent',
+        'font-bold visite-text-gradient',
         textSizeClasses[size],
         className
       )}>
@@ -89,7 +93,7 @@ export function Logo({ className, size = 'md', variant = 'full' }: LogoProps) {
     <div className={cn('flex items-center space-x-2', className)}>
       <IconSVG />
       <span className={cn(
-        'font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent',
+        'font-bold visite-text-gradient',
         textSizeClasses[size]
       )}>
         Visite Sri3a
