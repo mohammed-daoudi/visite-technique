@@ -1,0 +1,228 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native","debian-openssl-3.0.x"]
+}
+
+// NextAuth.js required models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          UserRole  @default(USER)
+  phone         String?
+  preferredLanguage String @default("fr")
+  resetToken    String?   @unique
+  resetTokenExpiry DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+  cars     Car[]
+  bookings Booking[]
+
+  @@map("users")
+}
+
+model Car {
+  id           String   @id @default(cuid())
+  userId       String
+  licensePlate String   @unique
+  brand        String
+  model        String
+  year         Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@map("cars")
+}
+
+model InspectionCenter {
+  id          String   @id @default(cuid())
+  name        String
+  nameAr      String?
+  nameEn      String?
+  address     String
+  addressAr   String?
+  addressEn   String?
+  city        String
+  latitude    Float
+  longitude   Float
+  phone       String?
+  email       String?
+  isActive    Boolean  @default(true)
+  services    String[] // Array of services offered
+  workingHours Json    // Working hours configuration
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  timeSlots TimeSlot[]
+  bookings  Booking[]
+
+  @@map("inspection_centers")
+}
+
+model TimeSlot {
+  id                 String           @id @default(cuid())
+  inspectionCenterId String
+  date               DateTime         @db.Date
+  startTime          DateTime         @db.Time
+  endTime            DateTime         @db.Time
+  capacity           Int              @default(1)
+  bookedCount        Int              @default(0)
+  isAvailable        Boolean          @default(true)
+  price              Float            // Price in MAD
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  inspectionCenter InspectionCenter @relation(fields: [inspectionCenterId], references: [id], onDelete: Cascade)
+  bookings         Booking[]
+
+  @@unique([inspectionCenterId, date, startTime])
+  @@map("time_slots")
+}
+
+model Booking {
+  id                 String        @id @default(cuid())
+  userId             String
+  carId              String
+  inspectionCenterId String
+  timeSlotId         String
+  bookingNumber      String        @unique
+  status             BookingStatus @default(PENDING)
+  totalAmount        Float
+  notes              String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  user             User             @relation(fields: [userId], references: [id])
+  car              Car              @relation(fields: [carId], references: [id])
+  inspectionCenter InspectionCenter @relation(fields: [inspectionCenterId], references: [id])
+  timeSlot         TimeSlot         @relation(fields: [timeSlotId], references: [id])
+  payment          Payment?
+  notifications    Notification[]
+
+  @@map("bookings")
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  bookingId         String        @unique
+  amount            Float
+  currency          String        @default("MAD")
+  status            PaymentStatus @default(PENDING)
+  paymentMethod     String?       // CMI, CARD, etc.
+  transactionId     String?       // CMI transaction ID
+  cmiOrderId        String?       // CMI order ID
+  cmiResponseCode   String?
+  cmiResponseMessage String?
+  paymentDate       DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  bookingId String
+  type      NotificationType
+  channel   String           // EMAIL, SMS
+  recipient String           // email or phone number
+  subject   String?
+  message   String
+  status    String           @default("PENDING") // PENDING, SENT, FAILED
+  sentAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+// Enums
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum NotificationType {
+  BOOKING_CONFIRMATION
+  PAYMENT_CONFIRMATION
+  APPOINTMENT_REMINDER
+  BOOKING_CANCELLATION
+  PAYMENT_FAILED
+}

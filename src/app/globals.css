@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Visite Sri3a Custom Brand Styles */
+@layer components {
+  .visite-gradient {
+    background: linear-gradient(135deg, hsl(var(--visite-red)) 0%, hsl(var(--visite-blue)) 100%);
+  }
+
+  .visite-text-gradient {
+    background: linear-gradient(135deg, hsl(var(--visite-red)) 0%, hsl(var(--visite-blue)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .visite-moroccan-pattern {
+    background-image:
+      radial-gradient(circle at 25% 25%, hsl(var(--visite-gold) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--visite-red) / 0.1) 0%, transparent 50%);
+  }
+
+  .visite-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) + 2px);
+    box-shadow:
+      0 1px 3px 0 hsl(var(--visite-red) / 0.1),
+      0 1px 2px 0 hsl(var(--visite-blue) / 0.06);
+  }
+
+  .visite-button-primary {
+    background: hsl(var(--visite-red));
+    color: hsl(var(--primary-foreground));
+    border-radius: var(--radius);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .visite-button-primary:hover {
+    background: hsl(var(--visite-red) / 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px hsl(var(--visite-red) / 0.25);
+  }
+
+  /* Mobile-First Responsive Utilities */
+  .mobile-container {
+    @apply px-4 sm:px-6 lg:px-8 max-w-screen-xl mx-auto;
+  }
+
+  .mobile-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+  }
+
+  .mobile-card {
+    @apply visite-card p-4 sm:p-6 space-y-3 sm:space-y-4;
+  }
+
+  .mobile-button {
+    @apply visite-button-primary px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base min-h-[44px] w-full sm:w-auto;
+  }
+
+  .mobile-text-responsive {
+    @apply text-sm sm:text-base leading-relaxed;
+  }
+
+  .mobile-heading {
+    @apply text-lg sm:text-xl lg:text-2xl font-semibold;
+  }
+
+  .mobile-subheading {
+    @apply text-base sm:text-lg lg:text-xl font-medium;
+  }
+
+  /* Touch-Friendly Interactive Elements */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+
+  .mobile-nav-item {
+    @apply touch-target px-3 py-2 text-base sm:text-sm font-medium rounded-md transition-colors;
+  }
+
+  /* Mobile-Optimized Form Elements */
+  .mobile-form-input {
+    @apply min-h-[44px] px-3 py-2 text-base sm:text-sm border rounded-md w-full;
+  }
+
+  .mobile-form-select {
+    @apply min-h-[44px] px-3 py-2 text-base sm:text-sm border rounded-md w-full appearance-none;
+  }
+
+  /* Better Mobile Typography */
+  .mobile-body-text {
+    @apply text-sm sm:text-base leading-6 sm:leading-7;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    /* Visite Sri3a Brand Colors - Moroccan Red & Automotive Blue */
+    --primary: 355 75% 42%; /* Deep Moroccan Red */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 215 84% 95%; /* Light automotive blue */
+    --secondary-foreground: 355 75% 42%;
+    --muted: 210 40% 95%;
+    --muted-foreground: 215 16% 46.9%;
+    --accent: 355 85% 95%; /* Light Moroccan red accent */
+    --accent-foreground: 355 75% 42%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 27% 90%;
+    --input: 215 27% 90%;
+    --ring: 355 75% 42%;
+    --radius: 0.75rem; /* Slightly rounded for modern automotive feel */
+    /* Visite Sri3a Brand Chart Colors */
+    --chart-1: 355 75% 55%; /* Moroccan Red */
+    --chart-2: 215 84% 65%; /* Automotive Blue */
+    --chart-3: 48 96% 55%; /* Moroccan Gold */
+    --chart-4: 142 76% 45%; /* Success Green */
+    --chart-5: 262 83% 58%; /* Tech Purple */
+
+    /* Custom Visite Sri3a Variables */
+    --visite-red: 355 75% 42%;
+    --visite-blue: 215 84% 55%;
+    --visite-gold: 48 96% 55%;
+    --visite-green: 142 76% 45%;
+  }
+
+  .dark {
+    --background: 220 13% 6%;
+    --foreground: 0 0% 98%;
+    --card: 220 13% 9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 13% 9%;
+    --popover-foreground: 0 0% 98%;
+    /* Dark mode Visite Sri3a colors */
+    --primary: 355 85% 65%; /* Lighter Moroccan Red for dark mode */
+    --primary-foreground: 220 13% 9%;
+    --secondary: 215 30% 20%; /* Darker automotive blue */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 215 13% 15%;
+    --muted-foreground: 215 16% 65%;
+    --accent: 355 40% 20%; /* Dark Moroccan red accent */
+    --accent-foreground: 355 85% 85%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
